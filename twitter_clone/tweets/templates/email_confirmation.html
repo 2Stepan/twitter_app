@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Подтверждение электронной почты - Twitter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/snow.min.css" rel="stylesheet" />
+    <style>
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: rgb(13, 28, 39);
+        color: #14171a;
+        margin: 0;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      header {
+        background-color: rgb(13, 28, 39);
+        padding: 10px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .container {
+        max-width: 400px;
+        width: 100%;
+        padding: 20px;
+        margin-top: 12%;
+        margin-left: 37%;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      p {
+        margin-bottom: 20px;
+      }
+      .button {
+        background-color: rgb(29, 56, 75);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .button:hover {
+        background-color: rgb(7, 16, 22);
+      }
+      .message {
+        margin-top: 8%;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <header>
+        <h1>Twitter</h1>
+      </header>
+
+    <div class="container">
+      <h1>Подтверждение электронной почты</h1>
+      <p>Пожалуйста, проверьте свою электронную почту и подтвердите адрес, чтобы активировать вашу учетную запись.</p>
+
+      <div class="message">
+        {% if email_sent %}
+          <p>Подтверждение отправлено на {{ email }}. Пожалуйста, проверьте свою почту.</p>
+        {% else %}
+          <p>Если вы не получили письмо, вы можете повторно отправить подтверждение.</p>
+        {% endif %}
+      </div>
+
+      <a href="{% url 'resend_confirmation' %}" class="button">Повторно отправить подтверждение</a>
+
+      <div class="message">
+        <p>
+          Уже подтвердили? <a href="{% url 'login' %}">Войти</a>
+        </p>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/Snow.min.js"></script>
+    <script>
+      new Snow()
+    </script>
+  </body>
+</html>

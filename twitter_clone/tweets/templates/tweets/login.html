@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Twitter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" />
+    <link rel="stylesheet" href="/static/css/styletwo.css" />
+    <link href="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/snow.min.css" rel="stylesheet" />
+    <style>
+      @media screen and (max-width: 1400px) {
+        h1 {
+          background-color: lightcoral;
+          font-size: 56px;
+        }
+      }
+      
+      @media screen and (max-width: 998px) {
+        h1 {
+          font-size: 46px;
+        }
+      }
+      
+      @media screen and (max-width: 768px) {
+        h1 {
+          font-size: 26px;
+        }
+      }
+      
+      @media screen and (max-width: 576px) {
+        h1 {
+          background-color: pink;
+          font-size: 20px;
+        }
+      }
+      
+      header {
+        background-color: rgb(13, 28, 39);
+        padding: 10px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      
+      .stars,
+      .twinkling {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      
+      body {
+        font-family: Arial, sans-serif;
+        background-color: rgb(13, 28, 39);
+        color: #14171a;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background-color: white;
+        justify-content: center;
+        align-items: center;
+        margin-top: 12%;
+        margin-left: 37%;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 400px;
+      }
+      h1 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .form-group input {
+        width: 95%;
+        padding: 8px;
+        border: 1px solid #e1e8ed;
+        border-radius: 4px;
+      }
+      .btn {
+        background-color: rgb(13, 28, 39);
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+      }
+      .btn:hover {
+        background-color: rgb(7, 16, 22);
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .footer a {
+        color: #1da1f2;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Twitter</h1>
+    </header>
+    <script src="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/Snow.min.js"></script>
+    <script>
+      new Snow()
+    </script>
+    <div class="container">
+      <h1>Вход в Twitter</h1>
+      <form action="/login" method="POST">
+        <div class="form-group">
+          <label for="username">Имя пользователя или электронная почта</label>
+          <input type="text" id="username" name="username" autocomplete="on" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Пароль</label>
+          <input type="password" id="password" name="password" autocomplete="on" required />
+        </div>
+        <button type="submit" class="btn"><a href="/tweet_list.html" style="color: white;">Войти</a></button>
+      </form>
+      <div class="footer">
+        Нет аккаунта? <a href="/register.html">Создайте аккаунт</a>
+      </div>
+    </div>
+  </body>
+</html>
