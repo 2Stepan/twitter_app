@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль {{ user.username }}</title>
+</head>
+<body>
+    <header>
+        <h1>Профиль {{ user.username }}</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'tweet_list' %}">Все твиты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="tweets">
+            {% for tweet in tweets %}
+                <article>
+                    <p>{{ tweet.content }}</p>
+                    <p><small>Опубликовано: {{ tweet.created_at }}</small></p>
+                </article>
+            {% empty %}
+                <p>Нет твитов от этого пользователя.</p>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Мой личный блог</p>
+    </footer>
+</body>
+</html>
