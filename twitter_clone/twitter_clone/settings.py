@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/tweet_list'  # URL, на который будет перенаправлен пользователь после входа
+LOGIN_REDIRECT_URL = '/'  # URL, на который будет перенаправлен пользователь после входа
 LOGOUT_REDIRECT_URL = '/login'  # URL, на который будет перенаправлен пользователь после выхода
 
 

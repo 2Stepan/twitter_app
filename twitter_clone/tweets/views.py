@@ -22,17 +22,6 @@ def tweet_list(request):
    
  
 
-@csrf_exempt
-def login_view(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        user = authenticate(username=data['username'], password=data['password'])
-        if user is not None:
-            login(request, user)
-            return JsonResponse({'message': 'Logged in successfully!'})
-        return JsonResponse({'message': 'Invalid credentials!'}, status=401)
-    return render(request, 'tweets/login.html')
-
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -51,6 +40,8 @@ def create_post(request):
         Tweet.objects.create(user=request.user, content=content)  
         messages.success(request, 'Твит успешно создан!')
         return redirect('tweets/tweet_list.html')  
+    
+
 
 
 

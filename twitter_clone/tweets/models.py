@@ -35,11 +35,11 @@ class Like(models.Model):
 class Comment(models.Model):
     tweet = models.ForeignKey(Tweet, related_name='comments', on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
-    content = models.TextField()  # Убедитесь, что это поле присутствует
+    content = models.TextField() 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-           return self.content[:20]  # Возвращает первые 20 символов комментария
+           return self.content[:20]  
 
 
 
