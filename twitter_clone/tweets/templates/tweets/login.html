@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Twitter</title>
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" />
-    <link rel="stylesheet" href="/static/css/styletwo.css" />
+    <link rel="stylesheet" href="{% static 'css/styletwo.css' %}" />
     <link href="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/snow.min.css" rel="stylesheet" />
     <style>
       @media screen and (max-width: 1400px) {
@@ -18,26 +18,26 @@
           font-size: 56px;
         }
       }
-      
+
       @media screen and (max-width: 998px) {
         h1 {
           font-size: 46px;
         }
       }
-      
+
       @media screen and (max-width: 768px) {
         h1 {
           font-size: 26px;
         }
       }
-      
+
       @media screen and (max-width: 576px) {
         h1 {
           background-color: pink;
           font-size: 20px;
         }
       }
-      
+
       header {
         background-color: rgb(13, 28, 39);
         padding: 10px 20px;
@@ -54,7 +54,7 @@
         margin: 0;
         padding: 0;
       }
-      
+
       .stars,
       .twinkling {
         position: absolute;
@@ -66,7 +66,7 @@
         height: 100%;
         display: block;
       }
-      
+
       body {
         font-family: Arial, sans-serif;
         background-color: rgb(13, 28, 39);
@@ -125,9 +125,14 @@
         color: #1da1f2;
         text-decoration: none;
       }
+      .error-message {
+        color: red;
+        text-align: center;
+        margin-bottom: 20px;
+      }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <header>
       <h1>Twitter</h1>
     </header>
@@ -137,20 +142,24 @@
     </script>
     <div class="container">
       <h1>Вход в Twitter</h1>
-      <form action="/login" method="POST">
+      {% if error %}
+        <div class="error-message">{{ error }}</div>
+      {% endif %}
+      <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
         <div class="form-group">
-          <label for="username">Имя пользователя или электронная почта</label>
+          <label for="username">Имя пользователя</label>
           <input type="text" id="username" name="username" autocomplete="on" required />
         </div>
         <div class="form-group">
           <label for="password">Пароль</label>
           <input type="password" id="password" name="password" autocomplete="on" required />
         </div>
-        <button type="submit" class="btn"><a href="/tweet_list.html" style="color: white;">Войти</a></button>
+        <button type="submit" class="btn">Войти</button>
       </form>
       <div class="footer">
-        Нет аккаунта? <a href="/register.html">Создайте аккаунт</a>
+        Нет аккаунта? <a href="{% url 'register' %}">Создайте аккаунт</a>
       </div>
     </div>
-  </body>
+</body>
 </html>

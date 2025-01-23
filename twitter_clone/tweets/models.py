@@ -9,7 +9,7 @@ class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     
     def __str__(self):
-        return f"{self.user.username}: {self.text[:20]}..."
+        return f"{self.user.username}: {self.content[:20]}..."
 
 class Subscription(models.Model):
     user = models.ForeignKey(User, related_name='subscriptions', on_delete=models.CASCADE, default=1)
