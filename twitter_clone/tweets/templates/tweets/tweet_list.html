@@ -63,13 +63,47 @@
         .tweet-form button:hover {
           background-color: rgb(7, 16, 22);
         }
-        .tweet {
+        .tweets {
           border-bottom: 1px solid #e1e8ed;
           padding: 10px 0;
         }
-        .tweet:last-child {
+        .tweets:last-child {
           border-bottom: none;
+
         }
+
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 10px 0;
+      }
+      
+      .step-links {
+          display: flex;
+          align-items: center;
+      }
+      
+      .pagination-link {
+          color: rgb(13, 28, 39);
+          text-decoration: none;
+          background-color: #f5f8fa;
+          border: 1px solid #e1e8ed;
+          border-radius: 4px;
+          padding: 8px 12px;
+          margin: 0 5px;
+          transition: background-color 0.3s, color 0.3s;
+      }
+      
+      .pagination-link:hover {
+          background-color: rgb(13, 28, 39);
+          color: white;
+      }
+      
+      .current {
+          margin: 0 10px;
+          color: #657786;
+      }
       </style>
     </head>
     <body>
@@ -87,17 +121,17 @@
 
       <div class="container">
         <div class="tweet-form">
-          <h2>Что нового?</h2>
-          <form method="post" action="">
-            {% csrf_token %}
-            <textarea name="content" required></textarea>
-            <button type="submit">Твитнуть</button>
-          </form>
+            <h2>Что нового?</h2>
+                <form method="post">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                <button type="submit">Твитнуть</button>
+            </form>
         </div>
 
         <h2>Лента твитов</h2>
         {% for tweet in tweets %}
-          <div class="tweet">
+          <div class="tweets">
             <p>
               <strong>{{ tweet.user.username }}</strong>
             </p>
@@ -108,6 +142,26 @@
           <p>Нет твитов для отображения.</p>
         {% endfor %}
       </div>
+      
+
+      <div class="pagination"> 
+        <span class="step-links"> 
+            {% if page_obj.has_previous %} 
+                <a class="pagination-link" href="{% url 'tweet_list' %}?page=1">&laquo; первая</a> 
+                <a class="pagination-link" href="{% url 'tweet_list' %}?page={{ page_obj.previous_page_number }}">предыдущая</a> 
+            {% endif %} 
+    
+            <span class="current"> 
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}. 
+            </span> 
+    
+            {% if page_obj.has_next %} 
+                <a class="pagination-link" href="{% url 'tweet_list' %}?page={{ page_obj.next_page_number }}">следующая</a> 
+                <a class="pagination-link" href="{% url 'tweet_list' %}?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a> 
+            {% endif %} 
+        </span> 
+    </div>
+
     </body>
   </html>
 </DOCTYPE>
