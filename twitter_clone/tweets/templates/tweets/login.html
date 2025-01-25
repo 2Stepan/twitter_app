@@ -90,35 +90,33 @@
         font-size: 24px;
         margin-bottom: 20px;
       }
-      form {
+      .form-group {
         margin-bottom: 15px;
       }
-      form p {
+      .form-group label {
         display: block;
         margin-bottom: 5px;
       }
-      
-      input[type='text'],
-      input[type='email'],
-      input[type='password'] {
+      .form-group input {
         width: 95%;
-        padding: 10px;
-        border-radius: 4px;
+        padding: 8px;
         border: 1px solid #e1e8ed;
+        border-radius: 4px;
       }
-      .form-group button {
-        margin-top: 3%;
-        width: 100%;
+      .btn {
         background-color: rgb(13, 28, 39);
         color: white;
+        padding: 10px;
         border: none;
-        padding: 12px;
-        border-radius: 6px;
+        border-radius: 4px;
         cursor: pointer;
+        width: 100%;
+        font-size: 16px;
       }
-      .form-group button:hover {
+      .btn:hover {
         background-color: rgb(7, 16, 22);
       }
+
       
       .footer {
         text-align: center;
@@ -140,12 +138,21 @@
     </script>
     <div class="container">
       <h1>Вход в Twitter</h1>
-      <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="form-group">
-          <button type="submit"><a href="{% url 'tweet_list' %}" style="color: white;">Войти</a></button>
-        </div>
+      {% if error %}
+      <div class="error-message">{{ error }}</div>
+    {% endif %}
+    <form action="{% url 'login' %}" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Имя пользователя</label>
+        <input type="text" id="username" name="username" autocomplete="on" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password" autocomplete="on" required />
+      </div>
+      <button type="submit" class="btn">Войти</button>
+    </form>
         <div class="footer">
           Нет аккаунта? <a href="/register">Создайте аккаунт</a>
         </div>
@@ -154,5 +161,7 @@
         <input type="hidden" name="next" value="{{ next }}" />
       {% endif %}
     </div>
+  <footer>
+  </footer>
   </body>
 </html>

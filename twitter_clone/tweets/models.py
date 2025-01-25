@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
@@ -10,7 +9,17 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+class UserProfile(models.Model):  # Модель профиля пользователя, связанная с моделью пользователя
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)  # Поле для биографии пользователя
+    # Другие поля профиля
 
+class Follow(models.Model): # Модель для отслеживания подписок пользователей
+    follower = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='following', on_delete=models.CASCADE)
+    followed = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='followers', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('follower', 'followed')  # Уникальное ограничение для пары "подписчик - подписанный", чтобы предотвратить дублирование
 
 class Tweet(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
@@ -21,16 +30,16 @@ class Tweet(models.Model):
     def __str__(self):
         return f"{self.user.username}: {self.content[:20]}..."
 
-class Subscription(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='subscriptions', on_delete=models.CASCADE, default=1)
-    subscribed_to = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='subscribers', on_delete=models.CASCADE, default=1)
+
+class Like(models.Model):  # Модель для хранения лайков пользователей на твиты
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)  # Пользователь, который поставил лайк
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, default=1)
+    
+    class Meta:
+        unique_together = ('user', 'tweet')  # Ограничение на уникальность (один пользователь может лайкнуть твит только один раз)
 
     def __str__(self):
-        return f"{self.user.username} -> {self.subscribed_to.username}"
-
-class Like(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
-    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, default=1)
+        return f"{self.user.username} likes {self.tweet.content}" # Строковое представление объекта лайка
 
 class Comment(models.Model):
     tweet = models.ForeignKey(Tweet, related_name='comments', on_delete=models.CASCADE, default=1)

@@ -30,7 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = '/'  # URL, на который будет перенаправлен пользователь после входа
-LOGOUT_REDIRECT_URL = '/login'  # URL, на который будет перенаправлен пользователь после выхода
+LOGOUT_REDIRECT_URL = '/'  # URL, на который будет перенаправлен пользователь после выхода
+
 
 
 
@@ -47,6 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tweets',
+    'django.contrib.sites',  # Необходимо для allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'twitter_clone.urls'
@@ -128,6 +134,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
 STATICFILES_DIRS = [
  BASE_DIR / "static",
 ]
@@ -136,4 +149,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
 

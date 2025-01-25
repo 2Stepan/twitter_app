@@ -1,36 +1,167 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Профиль {{ user.username }}</title>
-</head>
-<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/snow.min.css" rel="stylesheet" />
+    <style>
+      body { 
+        font-family: Arial, sans-serif; 
+        margin: 0; 
+        padding: 0; 
+        background-color: rgb(20, 48, 68); 
+    } 
+    
+    header { 
+        background-color: rgb(13, 28, 39); 
+        color: white; 
+        padding: 20px; 
+        text-align: center; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Легкая тень для заголовка */
+    } 
+    
+    nav a { 
+        color: white; 
+        text-decoration: none; 
+        margin-left: 20px; 
+        transition: color 0.3s; /* Плавный переход цвета */
+    } 
+
+    nav a:hover {
+        color: rgb(173, 216, 230); /* Цвет при наведении */
+    }
+
+    .profile { 
+        max-width: 600px; 
+        margin: 20px auto; 
+        padding: 20px;
+        color: black; 
+        background-color: rgb(243, 243, 243); /* Светлый фон для профиля */ 
+        border-radius: 8px; /* Закругленные углы */ 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень */ 
+    } 
+    
+    h1 { 
+        font-size: 24px; 
+        margin-bottom: 10px; /* Отступ снизу */
+    } 
+    
+    main { 
+        max-width: 600px; 
+        margin: 20px auto; 
+        padding: 10px; 
+        background-color: rgb(243, 243, 243); /* Белый фон для основного контента */ 
+        border-radius: 8px; /* Закругленные углы */ 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень */ 
+        color: black; 
+    } 
+    
+    #tweets { 
+        margin-top: 20px; 
+    } 
+    
+    article { 
+        border-bottom: 1px solid rgb(40, 58, 71); /* Разделитель между твитами */ 
+        padding: 10px 0; 
+    } 
+    
+    article:last-child { 
+        border-bottom: none; /* Убираем разделитель у последнего твита */ 
+    } 
+    
+    p { 
+        margin: 5px 0; 
+    } 
+
+    .chopa { 
+        display: flex; /* Распределение элементов по краям */
+        margin-top: 20px;
+        margin-left: 35%;
+    }
+
+    h4 {
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none; /* Убираем маркеры списка */
+        padding-left: 0; /* Убираем отступ слева */
+    }
+
+    li {
+        background-color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/Snow.min.js"></script>
+    <script>
+      new Snow()
+    </script>
     <header>
-        <h1>Профиль {{ user.username }}</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'tweet_list' %}">Все твиты</a></li>
-            </ul>
-        </nav>
+      <h1>Twitter</h1>
+      <nav>
+        <a href="{% url 'tweet_list' %}">Главная</a>
+        <a href="{% url 'user_profile' user.id %}">Моя страница</a>
+        <a href="{% url 'login' %}">Выйти</a>
+      </nav>
+
+      <div class="profile">
+        <h1><a href="{% url 'user_profile' user.id %}" style="text-decoration: none; color: black;">Профиль пользователя</a></h1>
+        <p>
+          <strong>Имя:</strong> {{ user.first_name }} {{ user.last_name }}
+        </p>
+        <p>
+          <strong>Электронная почта:</strong> {{ user.email }}
+        </p>
+        <p>
+          <strong>Имя пользователя:</strong> {{ user.username }}
+        </p>
+      </div>
+      <div class="chopa"> 
+        <h4>Подписки ({{ user.following.count }}) :</h4> 
+        <ul style="margin-left: 1%;"> 
+            {% for followed in user.following.all %} 
+                <li>{{ followed.username }}</li> 
+            {% empty %} 
+                <li style="color: black;">Нет подписок.</li> 
+            {% endfor %} 
+        </ul> 
+    
+        <h4 style="margin-left: 5%;">Подписчики ({{ user.followers.count }}) :</h4> 
+        <ul style="margin-top: 1%; margin-left: 1%;"> 
+            {% for follower in user.followers.all %} 
+                <li>{{ follower.username }}</li> 
+            {% empty %} 
+                <li style="border: none; color: black;">Нет подписчиков.</li> 
+            {% endfor %} 
+        </ul> 
+    </div> 
     </header>
 
     <main>
-        <section id="tweets">
-            {% for tweet in tweets %}
-                <article>
-                    <p>{{ tweet.content }}</p>
-                    <p><small>Опубликовано: {{ tweet.created_at }}</small></p>
-                </article>
-            {% empty %}
-                <p>Нет твитов от этого пользователя.</p>
-            {% endfor %}
-        </section>
+      <section id="tweets">
+        <h3>Твиты пользователя</h3>
+        <hr>
+        {% for tweet in tweets %}
+        <p><b>{{user.username}}</b></p>
+          <article>
+            <p>{{ tweet.content }}</p>
+            <p>
+              <small>Опубликовано: {{ tweet.created_at }}</small>
+            </p>
+          </article>
+        {% empty %}
+          <p>Нет твитов от этого пользователя.</p>
+        {% endfor %}
+      </section>
     </main>
-
-    <footer>
-        <p>&copy; 2023 Мой личный блог</p>
-    </footer>
-</body>
+  </body>
 </html>

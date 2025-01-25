@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск пользователей</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/snow.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(13, 28, 39);
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            background-color: rgb(13, 28, 39);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: rgb(173, 216, 230); /* Цвет при наведении */
+        }
+
+        h1 {
+            color: rgb(255, 255, 255);
+        }
+
+        form {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgb(243, 243, 243);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 130px); /* Учитываем ширину кнопки */
+            display: inline-block; /* Чтобы кнопка была на одной линии */
+        }
+
+        button {
+            background-color: rgb(13, 28, 39);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgb(11, 23, 31);
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #333;
+        }
+
+        ul {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: rgb(243, 243, 243);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: black;
+            list-style-type: none; /* Убираем маркеры списка */
+        }
+
+        li {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex; /* Используем flexbox для выравнивания */
+            justify-content: space-between; /* Размещаем контент по краям */
+            align-items: center; /* Центрируем по вертикали */
+        }
+
+        a {
+            text-decoration: none;
+            color: #1da1f2;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/gh/Alaev-Co/snowflakes/dist/Snow.min.js"></script>
+    <script>
+      new Snow()
+    </script>
+    <header>
+      <h1>Twitter</h1>
+      <nav>
+        <a href="{% url 'tweet_list' %}">Главная</a>
+        <a href="{% url 'user_profile' user.id %}">Моя страница</a>
+        <a href="{% url 'login' %}">Выйти</a>
+      </nav>
+    
+     
+    </header> 
+    <form method="get" action="{% url 'user_search' %}">
+        {{ form.as_p }}
+        <button type="submit" style="float: right; margin-top: -6.8%;">Поиск</button>
+    </form>
+
+   
+    <ul>
+        <h4>Результаты поиска:</h4>
+        {% for user in results %}
+            <li>{{ user.username }} 
+                <a href="{% url 'user_profile' user.id %}" style="text-decoration: none; color: black; margin-left: 3%;">Профиль</a>
+                <form method="POST" action="{% url 'follow_user' user.id %}" style="display: inline; margin-left: 5%">
+                    {% csrf_token %}
+                    <button type="submit">Подписаться</button>
+                </form>
+            </li>
+        {% empty %}
+            <li><h5><center>Пользователи не найдены.</center></h5></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
