@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import redirect, get_object_or_404
 import json
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 
 
@@ -139,16 +140,24 @@ def create_tweet(request):
     return render(request, 'tweets/create_tweet.html', {'form': form})
    
  
-
 def register(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')  # Перенаправление на страницу входа после успешной регистрации
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'tweets/register.html', {'form': form})
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Проверка на существование пользователя
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, 'Пользователь с таким именем уже существует.')
+            return redirect('register')
+
+        
+        user = CustomUser.objects.create_user(username=username, password=password)
+        user.save()
+        
+        messages.success(request, 'Вы успешно зарегистрированы! Теперь вы можете войти.')
+        return redirect('login')  
+
+    return render(request, 'tweets/register.html')
 
 @login_required
 def like_tweet(request, tweet_id):
