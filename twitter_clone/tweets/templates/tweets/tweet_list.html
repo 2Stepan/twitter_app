@@ -195,6 +195,12 @@
               <i class="{% if request.user in tweet.like_set.all %}fas fa-heart{% else %}far fa-heart{% endif %}" style="color: red;"></i>
               <span>{{ tweet.like_set.count }}</span>
             </p>
+            <a href="{% url 'edit_tweet' tweet.id %}" style="text-decoration: none; font-size: small; color:  #657786; float: right;margin-top:-8%;">Редактировать</a>
+            <form method="POST" action="{% url 'delete_tweet' tweet.id %}" style="display:inline; float: right;margin-top: -3%;">
+              {% csrf_token %}
+              <button type="submit"  class="delete-button" >Удалить</button>
+          </form>
+            
             <form action="{% url 'like_tweet' tweet.id %}" method="post" style="margin-top: -8.5%;"> 
               {% csrf_token %} 
               <button type="submit" style="background: none; border: none; cursor: pointer;">
@@ -205,7 +211,7 @@
                 {% endif %}
               </button> 
             </form>
-          <small style="float: right; margin-top: -7%;">Опубликовано: {{ tweet.created_at }}</small>
+          <small style="float: right; margin-top: -3%;margin-right:2%;">Опубликовано: {{ tweet.created_at }}</small>
           <hr>
         </div>
           

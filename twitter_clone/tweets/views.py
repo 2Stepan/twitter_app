@@ -139,7 +139,32 @@ def create_tweet(request):
     
     return render(request, 'tweets/create_tweet.html', {'form': form})
    
- 
+
+def edit_tweet(request,tweet_id):
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+
+    if request.method == 'POST':
+        form = TweetForm(request.POST, instance=tweet)
+        if form.is_valid():
+            form.save()
+            return redirect('tweet_list')
+    else: 
+        form = TweetForm(instance=tweet)
+
+    return render(request, 'tweets/edit_tweet.html', {'form': form})
+
+
+def delete_tweet(request,tweet_id):
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+
+    if request.method == 'POST':
+        tweet.delete() 
+        return redirect('tweet_list')
+    
+    return render(request, 'tweets/delete_tweet.html', {'tweet': tweet})
+
+
+
 def register(request):
     if request.method == 'POST':
         username = request.POST['username']
