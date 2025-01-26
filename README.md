@@ -11,10 +11,10 @@
     - python -m venv venv
     - venv/Scripts/activate
 - После создания виртуального окружения, необходимо последовательно прописать эти команды:
-- cd .\twitter_app\
-- pip install -r requirements.txt
-- cd .\twitter_clone\
-- python manage.py runserver
+    - cd .\twitter_app\     - переход в директорию twitter_app
+    - pip install -r requirements.txt     - установка зависимостей из файла requirements.txt
+    - cd .\twitter_clone\    - переход в директорию twitter_clone
+    - python manage.py runserver    - запуск сервера
 
 - После, в терминале отобразиться адрес локального хоста по которому будет необходимо перейти. Выглядеть он будет примерно подобным образом "http://127.0.0.1:8000/"
-- 
+  
