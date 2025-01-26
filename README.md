@@ -1,8 +1,9 @@
-Социальная сеть для коротких сообщений
+Социальная сеть для коротких сообщений в виде твитов
 
 Инструкция по установке и настойке проекта:
+
 - Клонируйте git-репозиторий
-- git clone -b master --single-branch https://github.com/2Stepan/twitter_app.git
+    - git clone -b master --single-branch https://github.com/2Stepan/twitter_app.git
 
 - Рекомендуется использовать IDE VSCode
 - Откройте папку с проектом
